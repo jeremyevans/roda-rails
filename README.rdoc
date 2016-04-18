@@ -1,0 +1,51 @@
+= roda-rails
+
+roda-rails offers integration for Roda when used as Rack middleware in a Rails
+application.  It allows the Roda middleware to use Rails flash handling as well
+as Rails' CSRF support.  Roda by default integrates with Rails' session support,
+since that just uses the standard Rack session protocol.
+
+Currently, only support for Rails 4.2 is included.  Pull requests for other
+Rails versions will be considered, in the form of a separate plugin per Rails
+minor version.
+
+Currently, there are no automated tests.  If you decide to use this in production,
+it may be a good idea to write automated tests for it and submit a pull request.
+
+= Installation
+
+  gem install roda-rails
+
+= Source Code
+
+Source code is available on GitHub at https://github.com/jeremyevans/roda-rails
+
+= Usage
+
+roda-rails currently includes a rails42 plugin, which you can load just like
+any other Roda plugin:
+
+  plugin :rails42
+
+The following plugin options are supported:
+
+:check_csrf :: A callable object that accepts the RodaRequest instance and returns
+               whether the CSRF token should be checked.  The default is to check
+               all non-GET requests.
+:invalid_csrf :: A callable object for the action to taken on an invalid CSRF token.
+                 The default is to set a 400 response status and halt.
+:csrf_key :: A callable object for how to get the submitted CSRF token.  The default
+             is to get it from the +authenticity_token+ request parameter.
+
+Methods offered:
+
+csrf_tag :: Return a string containing a hidden input tag containing the CSRF token.
+flash :: The Rails flash object associated with the current session.
+
+= License
+
+MIT
+
+= Author
+
+Jeremy Evans <code@jeremyevans.net>
